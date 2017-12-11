@@ -29,6 +29,9 @@ export default class Students extends Component{
         <NavLink to = '/students/addStudent'>
           <button> Add Student </button>
         </NavLink>
+        <NavLink to = '/students/editStudent'>
+          <button> Edit Student </button>
+        </NavLink>
         <p>Click on student name to navigate to its page</p>
         <table>
           <thead>

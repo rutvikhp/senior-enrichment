@@ -25,6 +25,9 @@ export default class Campuses extends Component{
         <NavLink to = "/campuses/addCampus">
           <button> Add Campus </button>
         </NavLink>
+        <NavLink to = '/campuses/editCampus'>
+          <button> Edit Campus </button>
+        </NavLink>
         <ul>
           {
             campuses.map(campus => {

@@ -11,6 +11,8 @@ const DELETE_STUDENT = 'DELETE_STUDENT'
 const ADD_CAMPUS = 'ADD_CAMPUS'
 const DELETE_CAMPUS = 'DELETE_CAMPUS'
 const GET_STUDENT_BY_ID = 'GET_STUDENT_BY_ID'
+const UPDATE_CAMPUS = 'UPDATE_CAMPUS'
+const UPDATE_STUDENT = 'UPDATE_STUDENT'
 //Action CREATERS
 export function getStudents (students)  {
   return {
@@ -57,6 +59,18 @@ export function deleteCampusAction(campusId){
 export function getStudentById(student){
   return {
     type: GET_STUDENT_BY_ID,
+    student
+  }
+}
+export function updateCampusAction(campus){
+  return {
+    type: UPDATE_CAMPUS,
+    campus
+  }
+}
+export function updateStudentAction(student){
+  return {
+    type: UPDATE_STUDENT,
     student
   }
 }
@@ -135,6 +149,33 @@ export function fetchStudentById (studentId){
       .catch(console.error)
   }
 }
+export function updateCampus(campus){
+    return function thunk(dispatch){
+      axios.put(`/api/campuses/${campus.campusId}`,{name:campus.name, description:campus.description})
+      .then(res => res.data)
+      .then(updatedCampus => {
+        dispatch(updateCampusAction(updatedCampus))
+      })
+      .catch(console.error)
+    }
+}
+export function updateStudent(student){
+    return function thunk(dispatch){
+      axios.put(`/api/students/${student.studentId}`,
+        {
+          firstName:student.firstName,
+          lastName:student.lastName,
+          email:student.email,
+          gpa:student.gpa,
+          campusId: student.campusId
+        })
+      .then(res => res.data)
+      .then(updatedStudent => {
+        dispatch(updateStudentAction(updatedStudent))
+      })
+      .catch(console.error)
+    }
+}
 //REDUCER
 const initialState = {
   students: [],
@@ -161,6 +202,10 @@ const rootReducer = function(state = initialState, action) {
       return {...state, campuses: state.campuses.filter((campus)=> campus.id !== action.campusId)}
     case GET_STUDENT_BY_ID:
       return {...state, student: action.student}
+    case UPDATE_CAMPUS:
+      return {...state, campuses:state.campuses.map(campus => campus.id === action.campus[0].id ? action.campus[0] : campus), campus:action.campus[0]}
+    case UPDATE_STUDENT:
+      return {...state, students:state.students.map(student => student.id === action.student[0].id ? action.student[0] : student), student:action.student[0]}
     default:
       return state
   }

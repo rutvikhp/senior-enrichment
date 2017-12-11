@@ -55,4 +55,30 @@ router.delete('/:id', (req, res, next) => {
   .catch(next);
 });
 
+router.put('/:id', (req, res, next) => {
+  Students.update({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    gpa: req.body.gpa,
+    campusId: req.body.campusId
+  },{
+    where: {
+      id: req.params.id,
+    },
+    returning: true
+  })
+  .spread((noOfUpdatedRows,student) => {
+    Campuses.findById(req.body.campusId)
+    .then(campus => {
+      student[0].setCampus(campus)
+      student[0].campus = campus;
+      return student
+    })
+    .then(student => res.json(student))
+  })
+
+  .catch(next)
+})
+
 module.exports = router;

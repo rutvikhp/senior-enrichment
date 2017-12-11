@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Students,Campuses} = require('../db/models');
+const {Students, Campuses} = require('../db/models');
 
 
 
@@ -38,4 +38,16 @@ router.delete('/:id', (req, res, next) => {
   .catch(next)
 })
 
+router.put('/:id', (req, res, next) => {
+  Campuses.update({
+    name: req.body.name,
+    description: req.body.description,
+  },{
+    where: {
+      id: req.params.id,
+    },
+    returning: true
+  })
+  .spread((noOfUpdatedRows,campus) => res.json(campus))
+})
 module.exports = router;

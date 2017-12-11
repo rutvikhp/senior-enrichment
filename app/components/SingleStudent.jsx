@@ -33,6 +33,9 @@ export default class SingleStudent extends Component{
               </p>
           </div>
         }
+        <NavLink to = '/students/editStudent'>
+          <button> Edit Student </button>
+        </NavLink>
       </div>
     )
   }

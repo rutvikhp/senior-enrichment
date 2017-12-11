@@ -19,6 +19,7 @@ export default class SingleCampus extends Component{
     return (
       <div>
         <h1>{campus.name}</h1>
+        {/* <img src = {campus.imageUrl} height='100' width = '150' /> */}
         <p>Description : {campus.description}</p>
         <p>Below are list of students</p>
         <ol>
@@ -35,6 +36,12 @@ export default class SingleCampus extends Component{
             })
           }
         </ol>
+        <NavLink to = '/students/addStudent'>
+          <button> Add Student </button>
+        </NavLink>
+        <NavLink to = '/campuses/editCampus'>
+          <button> Edit Campus </button>
+        </NavLink>
       </div>
     )
   }
